@@ -18,6 +18,8 @@ set(MUJOCO_SENSOR_INCLUDE
 )
 
 set(MUJOCO_SENSOR_SRCS
+    depth_capture.h
+    depth_capture.cc
     register.cc
     touch_grid.h
     touch_grid.cc

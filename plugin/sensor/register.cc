@@ -13,11 +13,13 @@
 // limitations under the License.
 
 #include <mujoco/mjplugin.h>
+#include "depth_capture.h"
 #include "touch_grid.h"
 
 namespace mujoco::plugin::sensor {
 
 mjPLUGIN_LIB_INIT {
+  DepthCapture::RegisterPlugin();
   TouchGrid::RegisterPlugin();
 }
 

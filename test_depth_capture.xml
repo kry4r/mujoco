@@ -1,0 +1,29 @@
+<mujoco model="depth_capture_test">
+  <extension>
+    <plugin plugin="mujoco.sensor.depth_capture"/>
+  </extension>
+
+  <worldbody>
+    <light diffuse=".5 .5 .5" pos="0 0 3" dir="0 0 -1"/>
+    <geom type="plane" size="1 1 0.1" rgba=".9 0 0 1"/>
+
+    <body pos="0 0 0.5">
+      <geom type="box" size="0.1 0.1 0.1" rgba="0 .9 0 1"/>
+      <site name="depth_sensor" pos="0 0 0.2" euler="0 0 0"/>
+    </body>
+
+    <body pos="0.5 0 0.3">
+      <geom type="sphere" size="0.1" rgba="0 0 .9 1"/>
+    </body>
+  </worldbody>
+
+  <sensor>
+    <plugin name="depth_cam" plugin="mujoco.sensor.depth_capture" objtype="site" objname="depth_sensor">
+      <config key="ncol" value="10"/>
+      <config key="nrow" value="10"/>
+      <config key="fov_x" value="45"/>
+      <config key="fov_y" value="45"/>
+      <config key="max_distance" value="5.0"/>
+    </plugin>
+  </sensor>
+</mujoco>
