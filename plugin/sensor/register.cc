@@ -14,11 +14,13 @@
 
 #include <mujoco/mjplugin.h>
 #include "touch_grid.h"
+#include "depth_capture.h"
 
 namespace mujoco::plugin::sensor {
 
 mjPLUGIN_LIB_INIT {
   TouchGrid::RegisterPlugin();
+  DepthCapture::RegisterPlugin();
 }
 
 }  // namespace mujoco::plugin::sensor
