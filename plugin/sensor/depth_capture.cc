@@ -156,6 +156,7 @@ namespace mujoco::plugin::sensor
     {
         // Make sure sensor is attached to a site
         int sensor_id = -1;
+        int site_id = -1;
         for (int i = 0; i < m->nsensor; ++i) {
             if (m->sensor_type[i] == mjSENS_PLUGIN && m->sensor_plugin[i] == instance) {
                 sensor_id = i;
@@ -165,7 +166,7 @@ namespace mujoco::plugin::sensor
                     mju_error("DepthCapture sensor must be attached to a site");
                 }
 
-                int site_id = m->sensor_objid[i];
+                site_id = m->sensor_objid[i];
                 break;
             }
         }
@@ -236,7 +237,7 @@ namespace mujoco::plugin::sensor
         int site_id = m->sensor_objid[id];
         mjtNum* site_pos = d->site_xpos + 3 * site_id;
         mjtNum* site_mat = d->site_xmat + 9 * site_id;
-
+        auto body = m->site_bodyid[site_id];
         // Perform raycasting
         int hits = 0;
         for (int i = 0; i < nrays; ++i) {
@@ -246,7 +247,8 @@ namespace mujoco::plugin::sensor
             mju_mulMatVec(dir_world, site_mat, dir_local, 3, 3);
 
             int geomid = -1;
-            mjtNum dist = mj_ray(m, d, site_pos, dir_world, nullptr, 1, -1, &geomid);
+            mjtByte geomgroup[mjNGROUP] = {1, 1, 0, 0, 0, 0};
+            mjtNum dist = mj_ray(m, d, site_pos, dir_world, geomgroup, 1, body, &geomid);
 
             if (dist < 0 || dist > max_distance_) {
                 sensordata[i] = max_distance_;
